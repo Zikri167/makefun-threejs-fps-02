@@ -172,6 +172,7 @@ function updateGrenade(dt) {
 
 function currentBombLabel() {
   const objective = game.state.objective;
+  if (objective.detonated) return 'CHARGE DETONATED · SITE A';
   if (objective.plantedAt !== null) {
     if (objective.defuseProgress > 0) return `DEFUSING ${Math.floor(objective.defuseProgress / 5 * 100)}% · ${Math.ceil(objective.plantedAt)}s`;
     return `CHARGE LIVE · ${Math.ceil(objective.plantedAt)}s · SITE ${objective.site.name}`;
@@ -269,6 +270,11 @@ function runShot(name) {
     player.state.yaw = -0.45;
     settle(4);
   } else if (name === 'end') {
+    game.state.wins.Ember = 1;
+    game.state.money += 3250;
+    game.state.objective.plantedAt = null;
+    game.state.objective.site = world.sites[0];
+    game.state.objective.detonated = true;
     game.state.phase = 'roundEnd';
     game.state.winner = 'Ember';
     game.state.reason = 'Charge detonated at Site A';
