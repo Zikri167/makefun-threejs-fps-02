@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cinderworks Yard</title>
+  <style>
+    :root {
+      --canvas: #111416;
+      --surface: #252b2d;
+      --hairline: #474643;
+      --ink: #eee9dc;
+      --muted: #9ba39d;
+      --accent: #e6a13a;
+      color: var(--ink);
+      font: 14px system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body, #game { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--canvas); }
+    #game canvas { position: fixed; inset: 0; display: block; }
+    #hud { position: fixed; inset: 0; pointer-events: none; }
+    .top { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); text-align: center; padding: 10px 24px; background: #111416c9; border: 1px solid var(--hairline); letter-spacing: .12em; }
+    .top b { display: block; font: 26px ui-monospace, monospace; color: var(--accent); }
+    .left, .right { position: absolute; bottom: 22px; padding: 13px 17px; background: #111416d9; border: 1px solid var(--hairline); }
+    .left { left: 22px; }
+    .right { right: 22px; text-align: right; }
+    #health { font: 34px ui-monospace, monospace; color: var(--accent); }
+    #ammo-mag { font: 46px ui-monospace, monospace; }
+    #ammo-reserve, #alive, #cash { color: var(--muted); }
+    #cash { margin-top: 5px; color: var(--accent); }
+    #bomb { position: absolute; top: 106px; left: 50%; transform: translateX(-50%); padding: 8px 14px; background: #111416d9; color: var(--accent); letter-spacing: .08em; }
+    #crosshair { --spread: 4px; position: absolute; left: 50%; top: 50%; width: 2px; height: 2px; background: var(--ink); box-shadow: calc(var(--spread) * -1) 0 var(--ink), var(--spread) 0 var(--ink), 0 calc(var(--spread) * -1) var(--ink), 0 var(--spread) var(--ink); }
+    #hitmarker { position: absolute; left: 50%; top: 50%; color: var(--accent); font-size: 30px; opacity: 0; transform: translate(-50%, -50%); }
+    #hitmarker.on { opacity: 1; }
+    #hitmarker.kill { color: white; }
+    #feed { position: absolute; top: 150px; right: 22px; padding: 9px 13px; background: #111416d9; opacity: 0; }
+    #feed.on { opacity: 1; }
+    #banner { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; background: #11141699; }
+    #banner[hidden], #buy[hidden], #overlay[hidden] { display: none; }
+    #banner-title { color: var(--accent); font-size: 44px; letter-spacing: .12em; }
+    .overlay { position: absolute; inset: 0; display: grid; place-items: center; background: #111416df; pointer-events: auto; }
+    .panel, .buy-panel { width: min(560px, 92vw); padding: 30px; background: var(--surface); border: 1px solid var(--accent); }
+    h1 { margin: 0 0 10px; font-size: 38px; letter-spacing: .08em; }
+    p, .keys { color: var(--muted); line-height: 1.7; }
+    button { padding: 11px 18px; border: 0; background: var(--accent); color: var(--canvas); font: inherit; cursor: pointer; }
+    #buy { position: absolute; inset: 0; display: grid; place-items: center; background: #111416dc; pointer-events: auto; }
+    #buy-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    #buy-list button { display: flex; justify-content: space-between; background: var(--hairline); color: var(--ink); }
+    #buy-list button:hover { background: var(--accent); color: var(--canvas); }
+  </style>
+</head>
+<body>
+  <div id="game"></div>
+  <div id="hud">
+    <div class="top"><span id="round">ROUND 1</span><b id="timer">100</b><span id="score">EMBER 0 — 0 ASH</span></div>
+    <div id="bomb">CHARGE: CARRIED</div>
+    <div id="crosshair"></div>
+    <div id="hitmarker">×</div>
+    <div id="feed"></div>
+    <div class="left"><div>VITALS <span id="health">100</span></div><div id="alive">EMBER 5 | ASH 5</div><div id="cash">$800</div></div>
+    <div class="right"><div id="ammo-mag">12</div><div id="ammo-reserve">/ 48 · Sidearm</div><div>MAG / RESERVE</div></div>
+    <div id="banner" hidden><div><div id="banner-title"></div><div id="banner-copy"></div></div></div>
+  </div>
+  <div id="overlay" class="overlay"><section class="panel"><h1 id="overlay-title">CINDERWORKS YARD</h1><p id="overlay-copy">Industrial yard operations. Ember carries the Spark charge; Ash holds the line.</p><button id="play">DEPLOY</button><ul class="keys"><li>WASD move · mouse aim · click fire</li><li>Ctrl crouch · Space jump · R reload</li><li>E plant / defuse · B buy · G Spark</li><li>1/2/3 switch weapon · Escape pause</li></ul></section></div>
+  <div id="buy" hidden><section class="buy-panel"><h2>ARMORY · B TO CLOSE</h2><div id="buy-list"><button data-weapon="VK-7">VK-7 <b>$2700</b></button><button data-weapon="Hornet-9">Hornet-9 <b>$1500</b></button><button data-weapon="Breach-12">Breach-12 <b>$1100</b></button><button data-weapon="Longshot">Longshot <b>$4750</b></button><button data-weapon="Spark">Spark <b>$300</b></button></div></section></div>
+  <script type="importmap">{"imports":{"three":"./vendor/three/three.module.min.js"}}</script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
