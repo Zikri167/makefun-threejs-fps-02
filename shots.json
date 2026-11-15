@@ -1,0 +1,18 @@
+[
+  {
+    "file": "1-start.jpg",
+    "url": "?shot=start&seed=1"
+  },
+  {
+    "file": "2-play.jpg",
+    "url": "?shot=play&seed=1"
+  },
+  {
+    "file": "3-buy.jpg",
+    "url": "?shot=buy&seed=1"
+  },
+  {
+    "file": "4-end.jpg",
+    "url": "?shot=end&seed=1"
+  }
+]
